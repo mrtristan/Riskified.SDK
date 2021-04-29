@@ -40,14 +40,6 @@ jobs:
             dotnet pack --no-build --configuration Release --version-suffix "$branch$runNumber" -o out
           }
       shell: pwsh
-    - name: rename
-      run: |
-          Get-Item "./Riskified.SDK/out/*.nupkg" | % { Rename-Item $_ -NewName ($_.name -replace "Riskified.SDK","MrTristan.Riskified") }
-      shell: pwsh
-    - name: debug
-      run: |
-          ls "./Riskified.SDK/out/"
-      shell: pwsh
     - name: publish to nuget
       run: |
           dotnet nuget push "./Riskified.SDK/out/*.nupkg" -k ${{ secrets.Nuget_tristan }} -s https://api.nuget.org/v3/index.json

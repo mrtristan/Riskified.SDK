@@ -4,6 +4,7 @@
     <AssemblyName>eG_CoreUtils.App</AssemblyName> -->
     <RootNamespace>Riskified.SDK</RootNamespace>
     <AssemblyName>Riskified.SDK</AssemblyName>
+    <PackageId>Riskified.SDK.NetStandard</PackageId>
     <TargetFramework>netstandard2.0</TargetFramework>
     <Company>Riskified</Company>
     <Description>Implementation of the Riskified API in C# (official SDK nuget release).</Description>
