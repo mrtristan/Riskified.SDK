@@ -9,8 +9,7 @@
     <Company>Riskified</Company>
     <Description>Implementation of the Riskified API in C# (official SDK nuget release).</Description>
     <Copyright>Copyright © Riskified 2012-2019</Copyright>
-    <PackageProjectUrl>https://github.com/Riskified/sdk_net</PackageProjectUrl>
-    <PackageProjectUrl>Repo URL</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/mrtristan/Riskified.SDK</PackageProjectUrl>
     <AssemblyVersion>2.1.2.9</AssemblyVersion>
     <FileVersion>2.1.2.9</FileVersion>
     <Version>2.1.2.9</Version>
