@@ -42,5 +42,5 @@ jobs:
       shell: pwsh
     - name: publish to nuget
       run: |
-          dotnet nuget push "./Riskified.SDK/out/*.nupkg" -k ${{ secrets.Nuget_tristan }} -s https://api.nuget.org/v3/index.json
+          Get-Item "./Riskified.SDK/out/*.nupkg" | % { dotnet nuget push $_ -k ${{ secrets.Nuget_tristan }} -s https://api.nuget.org/v3/index.json }
       shell: pwsh
