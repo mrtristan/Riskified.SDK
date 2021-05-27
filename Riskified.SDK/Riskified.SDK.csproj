@@ -10,8 +10,6 @@
     <Description>Implementation of the Riskified API in C# (official SDK nuget release).</Description>
     <Copyright>Copyright © Riskified 2012-2019</Copyright>
     <PackageProjectUrl>https://github.com/mrtristan/Riskified.SDK</PackageProjectUrl>
-    <AssemblyVersion>2.1.2.9</AssemblyVersion>
-    <FileVersion>2.1.2.9</FileVersion>
     <Version>2.1.2.9+1</Version>
     <ProjectGuid>53e4ddfb-9a43-45df-9563-43e9e49dae70</ProjectGuid>
   </PropertyGroup>
