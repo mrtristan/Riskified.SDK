@@ -12,6 +12,6 @@
     <ProjectGuid>53e4ddfb-9a43-45df-9563-43e9e49dae70</ProjectGuid>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 </Project>
