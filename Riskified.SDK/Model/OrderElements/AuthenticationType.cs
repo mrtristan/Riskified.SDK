@@ -7,9 +7,12 @@ using System.Collections.Generic;
 namespace Riskified.SDK.Model.Internal
 {
     public class AuthenticationType : IJsonSerializable
+
+
     {
         public void Validate(Validations validationType = Validations.Weak)
         {
+            return;
         }
 
         [JsonProperty(PropertyName = "description")]

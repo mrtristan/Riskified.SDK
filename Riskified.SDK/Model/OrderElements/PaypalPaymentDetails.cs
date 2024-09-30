@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using Riskified.SDK.Exceptions;
 using Riskified.SDK.Model.OrderCheckoutElements;
 using Riskified.SDK.Utils;
@@ -42,6 +44,7 @@ namespace Riskified.SDK.Model.OrderElements
             }
         }
 
+        
         [JsonProperty(PropertyName = "authorization_id")]
         public string AuthorizationId { get; set; }
 
@@ -67,7 +70,7 @@ namespace Riskified.SDK.Model.OrderElements
         public AuthorizationError AuthorizationError { get; set; }
 
         [JsonProperty(PropertyName = "authentication_result")]
-        public AuthenticationResult AuthenticationResult { get; set; }
+        public AuthorizationError AuthorizationResult { get; set; }
 
     }
 }

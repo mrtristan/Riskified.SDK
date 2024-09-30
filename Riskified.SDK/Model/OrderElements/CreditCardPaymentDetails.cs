@@ -3,15 +3,19 @@ using System;
 using Riskified.SDK.Exceptions;
 using Riskified.SDK.Model.OrderCheckoutElements;
 using Riskified.SDK.Utils;
+using System.Runtime.Serialization;
+using Newtonsoft.Json.Converters;
 
 namespace Riskified.SDK.Model.OrderElements
 {
+    [Obsolete("PaymentType not in use anymore", true)]
+    public enum PaymentType
+    {
+        credit_card, paypal
+    }
     public class CreditCardPaymentDetails : IPaymentDetails
     {
-        public enum _type
-        {
-            credit_card, paypal
-        }
+       
 
         /// <summary>
         /// The payment information for the order
@@ -22,7 +26,7 @@ namespace Riskified.SDK.Model.OrderElements
         /// <param name="creditCardCompany">The name of the company who issued the customer's credit card</param>
         /// <param name="creditCardNumber">The 4 last digits of the customer's credit card number, with most of the leading digits redacted with Xs</param>
         /// <param name="authorizationId">Unique identifier of the payment transaction as granted by the processing gateway.</param>
-        public CreditCardPaymentDetails(string avsResultCode, 
+        public CreditCardPaymentDetails(string avsResultCode,
                                         string cvvResultCode, 
                                         string creditCardBin, 
                                         string creditCardCompany, 
@@ -42,8 +46,10 @@ namespace Riskified.SDK.Model.OrderElements
             CreditCardToken = creditCardToken;
             StoredPaymentCreatedAt = storedPaymentCreatedAt;
             StoredPaymentUpdatedAt = storedPaymentUpdatedAt;
-            Installments = installments;  
+            Installments = installments;
         }
+
+
 
         /// <summary>
         /// Validates the objects fields content
@@ -63,6 +69,8 @@ namespace Riskified.SDK.Model.OrderElements
             InputValidators.ValidateValuedString(CreditCardCompany, "Credit Card Company");
         }
 
+
+        
         [JsonProperty(PropertyName = "avs_result_code")]
         public string AvsResultCode { get; set; }
 
@@ -83,7 +91,7 @@ namespace Riskified.SDK.Model.OrderElements
 
         [JsonProperty(PropertyName = "authorization_error")]
         public AuthorizationError AuthorizationError { get; set; }
-        
+
         [JsonProperty(PropertyName = "cardholder_name")]
         public string CardholderName { get; set; }
 
@@ -94,16 +102,13 @@ namespace Riskified.SDK.Model.OrderElements
         public string id { get; set; }
 
         [JsonProperty(PropertyName = "gateway")]
-        public string Gateway { get; set; }
+        public string gateway { get; set; }
 
         [JsonProperty(PropertyName = "acquirer_bin")]
         public string AcquirerBin { get; set; }
 
         [JsonProperty(PropertyName = "mid")]
         public string Mid { get; set; }
-
-        [JsonProperty(PropertyName = "_type")]
-        public _type Type { get; set; }
 
         [JsonProperty(PropertyName = "authentication_result")]
         public AuthenticationResult AuthenticationResult { get; set; }
@@ -117,6 +122,17 @@ namespace Riskified.SDK.Model.OrderElements
         [JsonProperty(PropertyName = "installments")]
         public int? Installments { get; set; }
 
+        [JsonProperty(PropertyName = "initial_payment_amount")]
+        public float? InitialPaymentAmount { get; set; }
+
+        [JsonProperty(PropertyName = "payment_frequency")]
+        public int? PaymentFrequency { get; set; }
+
+        [JsonProperty(PropertyName = "credit_card_country")]
+        public string CreditCardCountry { get; set; }
+
+        [JsonProperty(PropertyName = "acquirer_region")]
+        public string AcquirerRegion { get; set; }
     }
 
 }

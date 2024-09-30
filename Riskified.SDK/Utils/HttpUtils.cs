@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using Riskified.SDK.Exceptions;
 using Riskified.SDK.Logging;
 
@@ -74,7 +76,6 @@ namespace Riskified.SDK.Utils
             where TReqObj  : class 
         {
             var response = PostObject<TReqObj>(riskifiedWebhookUrl, jsonObj, authToken, shopDomain);
-
             var resObj = ParseObjectFromJsonResponse<TRespObj>(response);
             return resObj;
         }
@@ -86,7 +87,15 @@ namespace Riskified.SDK.Utils
             string jsonStr;
             try
             {
-                jsonStr = JsonConvert.SerializeObject(jsonObj,new JsonSerializerSettings{NullValueHandling = NullValueHandling.Ignore});
+                //jsonStr = JsonConvert.SerializeObject(jsonObj,new JsonSerializerSettings{NullValueHandling = NullValueHandling.Ignore});
+                var settings = new JsonSerializerSettings
+                {
+                    NullValueHandling = NullValueHandling.Ignore,
+                    Converters = new List<JsonConverter> { new StringEnumConverter() }  // Adding the StringEnumConverter
+                };
+
+                jsonStr = JsonConvert.SerializeObject(jsonObj, settings);
+                Console.WriteLine(jsonStr);
             }
             catch (Exception e)
             {
@@ -105,21 +114,26 @@ namespace Riskified.SDK.Utils
                 if (wex.Response != null)
                 {
                     HttpWebResponse errorResponse = (HttpWebResponse)wex.Response;
+                    HttpStatusCode statusCode = errorResponse.StatusCode;
+              
+                    
                     try
                     {
                         var errorObj = ParseObjectFromJsonResponse<ErrorResponse>(errorResponse);
-                        error = errorObj.Error.Message + " (Http Status code: " + errorResponse.StatusCode + ")";
+                        error = errorObj.Error.Message + " (Http Status code: " + statusCode + ")";
+                       
                     }
                     catch (Exception parseEx)
                     {
-                        if (errorResponse.StatusCode == HttpStatusCode.InternalServerError)
+                        if (statusCode == HttpStatusCode.InternalServerError)
                             error = "Server side error (500): ";
-                        else if (errorResponse.StatusCode == HttpStatusCode.BadRequest)
+                        else if (statusCode == HttpStatusCode.BadRequest)
                             error = "Client side error (400): ";
                         else
-                            error = "Error occurred. Http status code " + errorResponse.StatusCode + ":";
+                            error = "Error occurred. Http status code " + statusCode + ":";
                         error += parseEx.Message;
                     }
+
 
                 }
                 LoggingServices.Error(error, wex);
@@ -131,7 +145,6 @@ namespace Riskified.SDK.Utils
                 LoggingServices.Error(errorMsg, e);
                 throw new RiskifiedTransactionException(errorMsg, e);
             }
-
             return response;
         }
 
@@ -155,6 +168,7 @@ namespace Riskified.SDK.Utils
             request.ContentType = "application/"+ Enum.GetName(typeof(HttpBodyType),bodyType).ToLower();
             request.UserAgent = "Riskified.SDK_NET/" + AssemblyVersion;
             request.Accept = string.Format("application/vnd.riskified.com; version={0}", ServerApiVersion);
+            request.Accept = string.Format("application/json");
             request.AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip;
             byte[] bodyBytes = Encoding.UTF8.GetBytes(body);
             request.ContentLength = bodyBytes.Length;
@@ -184,8 +198,8 @@ namespace Riskified.SDK.Utils
             finally
             {
                 response.Close();
-            }
 
+            }
             return JsonStringToObject<T>(responseBody);
         }
 
@@ -195,10 +209,12 @@ namespace Riskified.SDK.Utils
             try
             {
                 transactionResult = JsonConvert.DeserializeObject<T>(responseBody);
+                ErrorResponse response = JsonConvert.DeserializeObject<ErrorResponse>(responseBody);
+                
                 if (transactionResult.GetType().Name == "ErrorResponse") {
                     foreach (var propInfo in transactionResult.GetType().GetProperties())
                     {
-                        propInfo.SetValue(transactionResult, responseBody);
+                        propInfo.SetValue(transactionResult, response.Error);
                     }
                 }
             }

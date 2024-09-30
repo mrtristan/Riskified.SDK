@@ -11,10 +11,8 @@ namespace Riskified.SDK.Model.OrderCheckoutElements
 {
     public class AuthenticationResult : IJsonSerializable
     {
-
         public enum TranStatus
         {
-
             Y, N, U, A, C, D, R, I
         }
 
@@ -48,5 +46,12 @@ namespace Riskified.SDK.Model.OrderCheckoutElements
         [JsonProperty(PropertyName = "cavv")]
         public string cavv { get; set; }
 
+        [JsonProperty(PropertyName = "three_d_challenge")]
+        public bool ThreeDChallenge { get; set; }
+
+        [JsonProperty(PropertyName = "TRA_exemption")]
+        public bool TraExemption { get; set; }
+
     }
 }
+

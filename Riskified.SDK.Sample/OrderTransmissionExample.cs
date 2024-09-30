@@ -11,6 +11,7 @@ using Riskified.SDK.Orders;
 using Riskified.SDK.Utils;
 using Riskified.SDK.Exceptions;
 using Riskified.SDK.Model.OrderCheckoutElements;
+using System.Text;
 
 namespace Riskified.SDK.Sample
 {
@@ -141,7 +142,7 @@ namespace Riskified.SDK.Sample
                         case "v":
                             Console.WriteLine("Order Generated with merchant order number: " + orderNum);
                             order.Id = orderNum.ToString();
-                            orderNum++;
+                            //orderNum++;
                             // sending order for synchronous decision
                             // it will generate a synchronous response with the decision regarding the order
                             // (for sync flow only)
@@ -292,11 +293,31 @@ namespace Riskified.SDK.Sample
 
                     if (res != null)
                     {
-                        Console.WriteLine("\n\nOrder sent successfully:" +
-                                              "\nStatus at Riskified: " + res.Status +
-                                              "\nOrder ID received:" + res.Id +
-                                              "\nDescription: " + res.Description +
-                                              "\nWarnings: " + (res.Warnings == null ? "---" : string.Join("        \n", res.Warnings)) + "\n\n");
+                        StringBuilder message = new StringBuilder();
+
+                        // Basic order information
+                        message.AppendLine("\nOrder sent successfully:");
+                        message.AppendLine($"Status at Riskified: {res.Status}");
+                        message.AppendLine($"Order ID received: {res.Id}");
+                        message.AppendLine($"Description: {res.Description}");
+                        // Conditional policy response
+                        if (res.PolicyProtect != null && res.PolicyProtect.Policies.Any())
+                        {
+                            //the example only retrieve the first item, in prod env, merchant should implement policy response it in for loop format. 
+                            message.AppendLine($"Policy Response: {res.PolicyProtect.Policies.First().PolicyType}");
+                        }
+
+                        // Warnings or a placeholder if there are no warnings
+                        if (res.Warnings != null && res.Warnings.Any())
+                        {
+                            message.AppendLine("Warnings: " + string.Join("\n        ", res.Warnings));
+                        }
+                        else
+                        {
+                            message.AppendLine("Warnings: ---");
+                        }
+                        Console.WriteLine(message.ToString());
+
                     }
                     if (accRes != null)
                     {
@@ -349,13 +370,14 @@ namespace Riskified.SDK.Sample
                                 cardholder: "John Smith",
                                 message: "Cardholder disputes quality/ mischaracterization of service/merchandise. Supply detailed refute of these claims, along with any applicable/supporting doc");
 
+            List<FulfillmentDetails> fulfillments = new List<FulfillmentDetails>();
             var fulfillmentDetails = new FulfillmentDetails(
                                              fulfillmentId: "123",
                                              createdAt: new DateTimeOffset(2018, 12, 8, 14, 12, 12, new TimeSpan(-7, 0, 0)),
                                              status: FulfillmentStatusCode.Success,
                                              lineItems: new LineItem[] { new LineItem("Bag", 10.0, 1) },
                                              trackingCompany: "TestCompany");
-
+            fulfillments.Add(fulfillmentDetails);
             var disputeDetails = new DisputeDetails(
                                         disputeType: "first_dispute",
                                         caseId: "a1234",
@@ -364,7 +386,7 @@ namespace Riskified.SDK.Sample
                                         disputedAt: new DateTime(2016, 9, 15),
                                         expectedResolutionDate: new DateTime(2016, 11, 1, 0, 0, 0, DateTimeKind.Local));
 
-            return new OrderChargeback(orderNum, chargebackDetails, fulfillmentDetails, disputeDetails);
+            return new OrderChargeback(orderNum, chargebackDetails, fulfillments, disputeDetails);
 
         }
 

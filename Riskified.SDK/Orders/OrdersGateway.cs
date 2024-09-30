@@ -5,6 +5,8 @@ using Riskified.SDK.Utils;
 using Riskified.SDK.Model.AccountActionElements;
 using System.Collections.Generic;
 using Riskified.SDK.Model.Internal;
+using Riskified.SDK.Model.OrderElements;
+using Riskified.SDK.Model.OtpElements;
 
 namespace Riskified.SDK.Orders
 {
@@ -69,9 +71,6 @@ namespace Riskified.SDK.Orders
             return SendOrderCheckout(orderCheckout, HttpUtils.BuildUrl(_env, "/api/checkout_create"));
         }
 
-        /*
-        *  Advise API to support PSD2 
-        */
         public OrderNotification Advise(OrderCheckout orderCheckout)
         {
             return SendOrderCheckout(orderCheckout, HttpUtils.BuildUrl(_env, "/api/advise"));
@@ -266,6 +265,12 @@ namespace Riskified.SDK.Orders
             return SendOrder(orderChargeback, HttpUtils.BuildUrl(_env, "/api/chargeback"));
         }
 
+        public OtpWidgetNotification InitiateOtp(OtpInitiate otpInitiate)
+        {
+            return SendInitiateOtp(otpInitiate, HttpUtils.BuildUrl(_env, "/recover/v1/otp/initiate", FlowStrategy.Otp));
+
+        }
+
         /// <summary>
         /// Validates the list of historical orders and sends them in batches to Riskified Servers.
         /// The FinancialStatus field of each order should contain the latest order status as described at "http://apiref.riskified.com/net/#actions-historical"
@@ -362,6 +367,12 @@ namespace Riskified.SDK.Orders
             return transactionResult;
         }
 
+        private OtpWidgetNotification SendInitiateOtp(OtpInitiate otpInitiate, Uri riskifiedEndpointUrl)
+        {
+            var transactionResult = HttpUtils.JsonPostAndParseResponseToObject<OtpWidgetNotification, OtpInitiate>(riskifiedEndpointUrl, otpInitiate, _authToken, _shopDomain);
+            return transactionResult;
+        }
+
         /// <summary>
         /// Validates the Order object fields
         /// Sends the order to riskified server endpoint as configured in the ctor
@@ -380,7 +391,6 @@ namespace Riskified.SDK.Orders
             var wrappedOrder = new OrderCheckoutWrapper<AbstractOrder>(orderCheckout);
             var transactionResult = HttpUtils.JsonPostAndParseResponseToObject<OrderCheckoutWrapper<Notification>, OrderCheckoutWrapper<AbstractOrder>>(riskifiedEndpointUrl, wrappedOrder, _authToken, _shopDomain);
             return new OrderNotification(transactionResult);
-            
         }
     }
 
