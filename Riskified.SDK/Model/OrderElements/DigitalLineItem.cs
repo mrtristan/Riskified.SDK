@@ -119,8 +119,5 @@ namespace Riskified.SDK.Model.OrderElements
         /// </summary>
         [JsonProperty(PropertyName = "card_subtype")]
         public string CardSubtype { get; set; }
-
-        [JsonProperty(PropertyName = "recipient")]
-        public Recipient Recipient { get; set; }
     }
 }
