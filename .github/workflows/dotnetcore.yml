@@ -29,7 +29,7 @@ jobs:
     - name: dotnet build
       run: |
           cd "Riskified.SDK"
-          $branch = @($env:GITHUB_REF -split "/")[-1]
+          $branch = $env:GITHUB_REF -replace ".*/" -replace "[^a-zA-Z0-9]"
           $runNumber = $env:GITHUB_RUN_NUMBER
           if($branch -eq "master")
           {
