@@ -19,9 +19,9 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1.7.2
+      uses: actions/setup-dotnet@v4.0.0
       with:
-        dotnet-version: 2.1.809
+        dotnet-version: 8.0.x
     - name: dotnet clean
       run: |  
           cd "Riskified.SDK"
@@ -41,6 +41,5 @@ jobs:
           }
       shell: pwsh
     - name: publish to nuget
-      run: |
-          Get-Item "./Riskified.SDK/out/*.nupkg" | % { dotnet nuget push $_ -k ${{ secrets.Nuget_tristan }} -s https://api.nuget.org/v3/index.json }
-      shell: pwsh
+      run: | 
+          dotnet nuget push ./Riskified.SDK/out/Riskified.SDK.*.symbols.nupkg -k ${{ secrets.Nuget_tristan }} -s https://api.nuget.org/v3/index.json
