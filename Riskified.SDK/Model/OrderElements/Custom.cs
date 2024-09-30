@@ -1,8 +1,5 @@
 ﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 using Riskified.SDK.Utils;
-using System;
-using System.Collections.Generic;
 
 namespace Riskified.SDK.Model.OrderElements
 {

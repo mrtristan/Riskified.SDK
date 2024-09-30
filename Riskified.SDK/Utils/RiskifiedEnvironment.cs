@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Riskified.SDK.Exceptions;
-using System.Configuration;
 
 namespace Riskified.SDK.Utils
 {

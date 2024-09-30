@@ -6,7 +6,6 @@ using Riskified.SDK.Exceptions;
 using Riskified.SDK.Logging;
 using Riskified.SDK.Model;
 using Riskified.SDK.Utils;
-using Riskified.SDK.Model.Internal;
 
 namespace Riskified.SDK.Notifications
 {

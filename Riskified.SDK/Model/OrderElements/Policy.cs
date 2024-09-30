@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using Riskified.SDK.Utils;
 
 namespace Riskified.SDK.Model.OrderElements
 {

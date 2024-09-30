@@ -1,5 +1,4 @@
-﻿using System;
-using Riskified.SDK.Utils;
+﻿using Riskified.SDK.Utils;
 using Newtonsoft.Json;
 
 namespace Riskified.SDK.Model.Internal

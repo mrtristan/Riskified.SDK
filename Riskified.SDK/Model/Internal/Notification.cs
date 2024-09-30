@@ -1,5 +1,4 @@
 using Newtonsoft.Json;
-using Riskified.SDK.Model.OrderCheckoutElements;
 using Riskified.SDK.Model.OrderElements;
 using Riskified.SDK.Model.PolicyElements;
 

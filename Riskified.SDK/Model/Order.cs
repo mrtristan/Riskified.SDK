@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 using Riskified.SDK.Exceptions;
 using Riskified.SDK.Model.OrderElements;
 using Riskified.SDK.Utils;

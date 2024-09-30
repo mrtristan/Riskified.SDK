@@ -1,5 +1,4 @@
-﻿using System;
-using Riskified.SDK.Model.OrderElements;
+﻿using Riskified.SDK.Model.OrderElements;
 
 namespace Riskified.SDK.Model.AccountActionElements
 {

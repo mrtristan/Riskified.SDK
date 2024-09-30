@@ -1,6 +1,4 @@
-﻿using Riskified.SDK.Utils;
-
-namespace Riskified.SDK.Model
+﻿namespace Riskified.SDK.Model
 {
     public class OrderIdOnly : OrderBase
     {

@@ -1,18 +1,12 @@
-﻿using Riskified.SDK.Utils;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using System;
-using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using Riskified.SDK.Utils;
 
-namespace Riskified.SDK.Model.Internal
+namespace Riskified.SDK.Model
 {
     public class AuthenticationType : IJsonSerializable
-
-
     {
         public void Validate(Validations validationType = Validations.Weak)
         {
-            return;
         }
 
         [JsonProperty(PropertyName = "description")]

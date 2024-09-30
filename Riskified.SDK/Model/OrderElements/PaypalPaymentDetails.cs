@@ -1,6 +1,4 @@
-﻿using System;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
+﻿using Newtonsoft.Json;
 using Riskified.SDK.Exceptions;
 using Riskified.SDK.Model.OrderCheckoutElements;
 using Riskified.SDK.Utils;

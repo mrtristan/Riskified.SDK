@@ -1,5 +1,4 @@
 using Riskified.SDK.Model.Internal;
-using Riskified.SDK.Model.OrderCheckoutElements;
 using Riskified.SDK.Model.OrderElements;
 using Riskified.SDK.Model.PolicyElements;
 
@@ -19,8 +18,6 @@ namespace Riskified.SDK.Model
             Warnings = notificationInfo.Warnings;
             PolicyProtect = notificationInfo.Order.PolicyProtect;
             RecoveryEligibility = notificationInfo.Order.RecoveryEligibility;
-
-
         }
 
         internal OrderNotification(OrderCheckoutWrapper<Notification> notificationInfo)
